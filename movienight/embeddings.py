@@ -60,7 +60,8 @@ class EmbeddingClient:
                 return self._post(batch)
             except EmbeddingError as e:
                 last = e
-                self._sleep(delay)
+                if attempt + 1 < self._max_retries:
+                    self._sleep(delay)
                 delay = min(delay * 2, 60.0)
         raise EmbeddingError(f"gave up after {self._max_retries} attempts: {last}")
 
