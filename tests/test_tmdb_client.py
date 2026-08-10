@@ -1,9 +1,7 @@
 import json
 import pathlib
 
-import pytest
-
-from movienight.tmdb_client import normalize_movie, us_certification
+from movienight.tmdb_client import TMDBClient, normalize_movie, us_certification
 
 FIXTURES = pathlib.Path(__file__).parent / "fixtures"
 
@@ -27,8 +25,13 @@ def test_normalize_extracts_typed_fields():
     assert "Drama" in rec["genres"]
     assert "nihilism" in rec["keywords"]
     assert rec["director"] == "David Fincher"
-    assert len(rec["cast"]) <= 6
+    assert len(rec["cast"]) == 6
+    assert rec["cast"][0] == "Edward Norton"
     assert rec["poster_path"].startswith("/")
+    assert set(rec) == {"movie_id", "title", "release_year", "tagline", "overview",
+                         "runtime", "certification", "genres", "keywords", "cast",
+                         "director", "poster_path", "vote_average", "vote_count",
+                         "popularity"}
 
 
 def test_us_certification_returns_none_when_absent():
@@ -52,3 +55,22 @@ def test_normalize_tolerates_missing_optional_fields():
     assert rec["runtime"] is None and rec["certification"] is None
     assert rec["genres"] == [] and rec["keywords"] == [] and rec["cast"] == []
     assert rec["release_year"] is None
+
+
+def test_discover_page_calls_expected_path_and_params(monkeypatch):
+    captured = {}
+
+    def fake_get(self, path, **params):
+        captured["path"] = path
+        captured["params"] = params
+        return {"results": ["movie-a", "movie-b"]}
+
+    monkeypatch.setattr(TMDBClient, "_get", fake_get)
+    client = TMDBClient("fake-token")
+    result = client.discover_page(page=3, min_votes=200)
+
+    assert captured["path"] == "/discover/movie"
+    assert captured["params"]["sort_by"] == "popularity.desc"
+    assert captured["params"]["page"] == 3
+    assert captured["params"]["vote_count.gte"] == 200
+    assert result == ["movie-a", "movie-b"]

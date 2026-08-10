@@ -10,7 +10,6 @@ import urllib.request
 
 BASE = "https://api.themoviedb.org/3"
 SCOPE = "movie_night"
-IMAGE_BASE = "https://image.tmdb.org/t/p/w342"
 
 
 class TMDBError(Exception):
@@ -53,7 +52,7 @@ class TMDBClient:
             except Exception as e:                      # timeout, DNS, reset
                 time.sleep(2 ** attempt)
                 last = e
-        raise TMDBError(f"TMDB {path} failed after {self._max_retries} attempts: {last}")
+        raise TMDBError(f"TMDB {path} failed after {self._max_retries} attempts: {last}") from last
 
     def discover_page(self, page, min_votes=200):
         body = self._get("/discover/movie", sort_by="popularity.desc",
