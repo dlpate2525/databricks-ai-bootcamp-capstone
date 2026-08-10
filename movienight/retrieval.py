@@ -55,7 +55,11 @@ def build_search_sql(filters, k):
             "NOT (m.certification IS NULL "
             "OR m.certification = ANY (%(violent_certs)s))"
         )
-        params["violent_certs"] = VIOLENT_CERTS
+        # psycopg3 adapts a Python list to a Postgres array but a tuple to a
+        # composite type, and ANY/ALL need an array. VIOLENT_CERTS stays a
+        # tuple (it's a constant); only the bound param must be a list, same
+        # as genres and exclude_ids below.
+        params["violent_certs"] = list(VIOLENT_CERTS)
 
     if filters.min_year is not None:
         where.append("m.release_year >= %(min_year)s")
@@ -82,7 +86,11 @@ def build_search_sql(filters, k):
             ORDER BY e.embedding <=> %(qvec)s::vector
             LIMIT %(candidate_limit)s
         )
-        SELECT m.*, 1 - c.distance AS similarity
+        SELECT m.movie_id, m.title, m.release_year, m.tagline, m.overview,
+               m.runtime, m.certification, m.genres, m.keywords,
+               m.cast_names, m.director, m.poster_path, m.vote_average,
+               m.vote_count, m.popularity,
+               1 - c.distance AS similarity
         FROM candidates c
         JOIN movies m USING (movie_id)
         {clause}
@@ -95,8 +103,17 @@ def build_search_sql(filters, k):
 def _exact_sql(filters, k):
     """Same filters, no candidate pre-limit. Used when HNSW under-delivers."""
     sql, params = build_search_sql(filters, k)
-    sql = sql.replace("LIMIT %(candidate_limit)s", "")
-    return sql, params
+    target = "LIMIT %(candidate_limit)s"
+    exact_sql = sql.replace(target, "")
+    if exact_sql == sql:
+        # If the template changes and this literal stops matching, the
+        # candidate LIMIT silently survives and the "exact" fallback quietly
+        # becomes a duplicate of the approximate query. Fail loudly instead.
+        raise RuntimeError(
+            f"_exact_sql could not find {target!r} in the generated SQL; "
+            "the query template and this replace target have drifted."
+        )
+    return exact_sql, params
 
 
 def search(conn, query_vector, filters=None, k=8):
@@ -107,6 +124,11 @@ def search(conn, query_vector, filters=None, k=8):
 
     if len(rows) < k:
         # Approximate index plus post-filtering came up short; redo exactly.
+        # Note: if the catalog genuinely holds fewer than k matching movies,
+        # every call for this filter combination re-runs the exact scan too
+        # (it can never reach k rows). That's inefficient but never incorrect
+        # -- the exact query is a strict superset of the approximate one --
+        # so this isn't a bug to chase if you see it happening repeatedly.
         sql, params = _exact_sql(filters, k)
         params["qvec"] = str(query_vector)
         rows = conn.execute(sql, params).fetchall()
