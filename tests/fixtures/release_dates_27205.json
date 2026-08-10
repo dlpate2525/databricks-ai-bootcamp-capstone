@@ -1,0 +1,1276 @@
+{
+  "id": 27205,
+  "results": [
+    {
+      "iso_3166_1": "AE",
+      "release_dates": [
+        {
+          "certification": "",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-15T00:00:00.000Z",
+          "type": 3
+        },
+        {
+          "certification": "",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2020-08-13T00:00:00.000Z",
+          "type": 4
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "AM",
+      "release_dates": [
+        {
+          "certification": "",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-08-10T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "AR",
+      "release_dates": [
+        {
+          "certification": "",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "Buenos Aires",
+          "release_date": "2010-07-26T00:00:00.000Z",
+          "type": 1
+        },
+        {
+          "certification": "+13",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-29T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "AT",
+      "release_dates": [
+        {
+          "certification": "12",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-29T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "AU",
+      "release_dates": [
+        {
+          "certification": "M",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-22T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "BA",
+      "release_dates": [
+        {
+          "certification": "",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-22T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "BE",
+      "release_dates": [
+        {
+          "certification": "12",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-21T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "BG",
+      "release_dates": [
+        {
+          "certification": "",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-23T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "BO",
+      "release_dates": [
+        {
+          "certification": "",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-08-05T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "BR",
+      "release_dates": [
+        {
+          "certification": "14",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-08-06T00:00:00.000Z",
+          "type": 3
+        },
+        {
+          "certification": "14",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-12-09T00:00:00.000Z",
+          "type": 5
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "CA",
+      "release_dates": [
+        {
+          "certification": "14A",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-16T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "CH",
+      "release_dates": [
+        {
+          "certification": "14",
+          "descriptors": [],
+          "iso_639_1": "de",
+          "note": "",
+          "release_date": "2010-07-29T00:00:00.000Z",
+          "type": 3
+        },
+        {
+          "certification": "14",
+          "descriptors": [],
+          "iso_639_1": "fr",
+          "note": "",
+          "release_date": "2010-07-21T00:00:00.000Z",
+          "type": 3
+        },
+        {
+          "certification": "14",
+          "descriptors": [],
+          "iso_639_1": "it",
+          "note": "",
+          "release_date": "2010-09-24T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "CL",
+      "release_dates": [
+        {
+          "certification": "",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-08-12T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "CN",
+      "release_dates": [
+        {
+          "certification": "",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-09-01T00:00:00.000Z",
+          "type": 3
+        },
+        {
+          "certification": "",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "Re-release",
+          "release_date": "2020-08-28T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "CO",
+      "release_dates": [
+        {
+          "certification": "",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-08-06T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "CZ",
+      "release_dates": [
+        {
+          "certification": "12+",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-29T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "DE",
+      "release_dates": [
+        {
+          "certification": "12",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-29T00:00:00.000Z",
+          "type": 3
+        },
+        {
+          "certification": "12",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "DvD",
+          "release_date": "2010-12-03T00:00:00.000Z",
+          "type": 5
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "DK",
+      "release_dates": [
+        {
+          "certification": "15",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-29T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "EC",
+      "release_dates": [
+        {
+          "certification": "",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-08-06T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "EE",
+      "release_dates": [
+        {
+          "certification": "",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-23T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "EG",
+      "release_dates": [
+        {
+          "certification": "",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-17T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "ES",
+      "release_dates": [
+        {
+          "certification": "12",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-08-06T00:00:00.000Z",
+          "type": 3
+        },
+        {
+          "certification": "12",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "Re-release",
+          "release_date": "2020-08-14T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "FI",
+      "release_dates": [
+        {
+          "certification": "K-16",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-23T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "FR",
+      "release_dates": [
+        {
+          "certification": "TP",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-21T00:00:00.000Z",
+          "type": 3
+        },
+        {
+          "certification": "",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "Canal+ Grand \u00c9cran",
+          "release_date": "2025-11-26T00:00:00.000Z",
+          "type": 6
+        },
+        {
+          "certification": "",
+          "descriptors": [],
+          "iso_639_1": "fr",
+          "note": "RMC Story",
+          "release_date": "2026-03-05T00:00:00.000Z",
+          "type": 6
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "GB",
+      "release_dates": [
+        {
+          "certification": "12A",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "London",
+          "release_date": "2010-07-08T00:00:00.000Z",
+          "type": 1
+        },
+        {
+          "certification": "12A",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-16T00:00:00.000Z",
+          "type": 3
+        },
+        {
+          "certification": "",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "Re-release",
+          "release_date": "2020-08-12T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "GE",
+      "release_dates": [
+        {
+          "certification": "",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-22T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "GH",
+      "release_dates": [
+        {
+          "certification": "",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-30T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "GR",
+      "release_dates": [
+        {
+          "certification": "\u039a-15",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-08-24T00:00:00.000Z",
+          "type": 3
+        },
+        {
+          "certification": "",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "Re-release",
+          "release_date": "2020-08-13T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "HK",
+      "release_dates": [
+        {
+          "certification": "IIB",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-29T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "HR",
+      "release_dates": [
+        {
+          "certification": "",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-22T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "HU",
+      "release_dates": [
+        {
+          "certification": "16",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-22T00:00:00.000Z",
+          "type": 3
+        },
+        {
+          "certification": "16",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "10th Anniversary",
+          "release_date": "2020-08-13T00:00:00.000Z",
+          "type": 3
+        },
+        {
+          "certification": "16",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "DVD, Blu-ray",
+          "release_date": "2010-12-07T00:00:00.000Z",
+          "type": 5
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "ID",
+      "release_dates": [
+        {
+          "certification": "",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-16T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "IE",
+      "release_dates": [
+        {
+          "certification": "12A",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-16T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "IL",
+      "release_dates": [
+        {
+          "certification": "\u05d4\u05d5\u05ea\u05e8 \u05dc\u05db\u05dc",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-22T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "IN",
+      "release_dates": [
+        {
+          "certification": "UA",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-16T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "IS",
+      "release_dates": [
+        {
+          "certification": "",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-23T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "IT",
+      "release_dates": [
+        {
+          "certification": "T",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-09-24T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "JP",
+      "release_dates": [
+        {
+          "certification": "G",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-17T00:00:00.000Z",
+          "type": 2
+        },
+        {
+          "certification": "G",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-23T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "KR",
+      "release_dates": [
+        {
+          "certification": "12",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-21T00:00:00.000Z",
+          "type": 3
+        },
+        {
+          "certification": "12",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "Re-release",
+          "release_date": "2020-01-29T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "KW",
+      "release_dates": [
+        {
+          "certification": "",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-15T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "KZ",
+      "release_dates": [
+        {
+          "certification": "",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-16T00:00:00.000Z",
+          "type": 3
+        },
+        {
+          "certification": "",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "Re-release",
+          "release_date": "2022-12-10T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "LB",
+      "release_dates": [
+        {
+          "certification": "",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-29T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "LT",
+      "release_dates": [
+        {
+          "certification": "N-13",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-23T00:00:00.000Z",
+          "type": 3
+        },
+        {
+          "certification": "N-13",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "Re-release",
+          "release_date": "2020-08-14T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "LV",
+      "release_dates": [
+        {
+          "certification": "",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-30T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "MT",
+      "release_dates": [
+        {
+          "certification": "12",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-21T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "MX",
+      "release_dates": [
+        {
+          "certification": "B",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "Re-release",
+          "release_date": "2020-08-27T00:00:00.000Z",
+          "type": 2
+        },
+        {
+          "certification": "B",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-23T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "MY",
+      "release_dates": [
+        {
+          "certification": "P13",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-15T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "NG",
+      "release_dates": [
+        {
+          "certification": "",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-30T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "NL",
+      "release_dates": [
+        {
+          "certification": "12",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-22T00:00:00.000Z",
+          "type": 3
+        },
+        {
+          "certification": "12",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "Blu ray",
+          "release_date": "2012-08-15T00:00:00.000Z",
+          "type": 5
+        },
+        {
+          "certification": "12",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "DVD",
+          "release_date": "2010-12-03T00:00:00.000Z",
+          "type": 5
+        },
+        {
+          "certification": "12",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "SBS 6",
+          "release_date": "2013-03-04T00:00:00.000Z",
+          "type": 6
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "NO",
+      "release_dates": [
+        {
+          "certification": "15",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-21T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "NZ",
+      "release_dates": [
+        {
+          "certification": "M",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-22T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "PA",
+      "release_dates": [
+        {
+          "certification": "",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-08-06T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "PE",
+      "release_dates": [
+        {
+          "certification": "",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-29T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "PH",
+      "release_dates": [
+        {
+          "certification": "",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-15T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "PK",
+      "release_dates": [
+        {
+          "certification": "",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-09-11T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "PL",
+      "release_dates": [
+        {
+          "certification": "16",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-30T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "PT",
+      "release_dates": [
+        {
+          "certification": "M/12",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-22T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "RO",
+      "release_dates": [
+        {
+          "certification": "15",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-30T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "RS",
+      "release_dates": [
+        {
+          "certification": "",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-22T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "RU",
+      "release_dates": [
+        {
+          "certification": "12+",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-22T00:00:00.000Z",
+          "type": 3
+        },
+        {
+          "certification": "12+",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "Re-release",
+          "release_date": "2020-08-13T00:00:00.000Z",
+          "type": 3
+        },
+        {
+          "certification": "12+",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "DVD, Blu-ray",
+          "release_date": "2010-12-07T00:00:00.000Z",
+          "type": 5
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "SE",
+      "release_dates": [
+        {
+          "certification": "15",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-23T00:00:00.000Z",
+          "type": 3
+        },
+        {
+          "certification": "11",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "DVD / Blu-ray",
+          "release_date": "2010-12-08T00:00:00.000Z",
+          "type": 5
+        },
+        {
+          "certification": "11",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "4K Ultra HD",
+          "release_date": "2017-12-22T00:00:00.000Z",
+          "type": 5
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "SG",
+      "release_dates": [
+        {
+          "certification": "PG",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-15T00:00:00.000Z",
+          "type": 3
+        },
+        {
+          "certification": "PG",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "Re-release",
+          "release_date": "2020-07-30T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "SI",
+      "release_dates": [
+        {
+          "certification": "",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-22T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "SK",
+      "release_dates": [
+        {
+          "certification": "12",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-22T00:00:00.000Z",
+          "type": 3
+        },
+        {
+          "certification": "",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "Re-release",
+          "release_date": "2020-08-12T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "SY",
+      "release_dates": [
+        {
+          "certification": "",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-15T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "TH",
+      "release_dates": [
+        {
+          "certification": "15",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-15T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "TR",
+      "release_dates": [
+        {
+          "certification": "13+",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-30T00:00:00.000Z",
+          "type": 3
+        },
+        {
+          "certification": "",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "Re-release",
+          "release_date": "2020-08-14T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "TW",
+      "release_dates": [
+        {
+          "certification": "6+",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-16T00:00:00.000Z",
+          "type": 3
+        },
+        {
+          "certification": "6+",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "10th Anniversary Edition",
+          "release_date": "2020-08-12T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "UA",
+      "release_dates": [
+        {
+          "certification": "",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-22T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "US",
+      "release_dates": [
+        {
+          "certification": "PG-13",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "Hollywood, California",
+          "release_date": "2010-07-13T00:00:00.000Z",
+          "type": 1
+        },
+        {
+          "certification": "PG-13",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-16T00:00:00.000Z",
+          "type": 3
+        },
+        {
+          "certification": "",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "Re-release",
+          "release_date": "2020-08-21T00:00:00.000Z",
+          "type": 3
+        },
+        {
+          "certification": "PG-13",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "DVD / Blu-ray",
+          "release_date": "2010-12-07T00:00:00.000Z",
+          "type": 5
+        },
+        {
+          "certification": "PG-13",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "4K UHD",
+          "release_date": "2017-12-19T00:00:00.000Z",
+          "type": 5
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "UY",
+      "release_dates": [
+        {
+          "certification": "",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-30T00:00:00.000Z",
+          "type": 3
+        },
+        {
+          "certification": "",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "Re-release",
+          "release_date": "2020-09-03T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "UZ",
+      "release_dates": [
+        {
+          "certification": "",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-22T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "VE",
+      "release_dates": [
+        {
+          "certification": "",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-08-06T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "VN",
+      "release_dates": [
+        {
+          "certification": "",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-08-06T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "iso_3166_1": "ZA",
+      "release_dates": [
+        {
+          "certification": "",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2025-03-14T00:00:00.000Z",
+          "type": 2
+        },
+        {
+          "certification": "13",
+          "descriptors": [],
+          "iso_639_1": "",
+          "note": "",
+          "release_date": "2010-07-30T00:00:00.000Z",
+          "type": 3
+        }
+      ]
+    }
+  ]
+}
