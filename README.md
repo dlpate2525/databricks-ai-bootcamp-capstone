@@ -33,7 +33,7 @@ Lakebase Postgres 16 + pgvector 0.8.0
    |   ratings, watchlist_items, recommendations
    v
 Streamlit Databricks App
-   +-- tool-calling loop --> databricks-llama-4-maverick
+   +-- tool-calling loop --> databricks-meta-llama-3-3-70b-instruct
                                   |
                                   +--> 3 read tools, 3 write tools --> Lakebase
 ```
@@ -120,6 +120,23 @@ databricks sync . /Workspace/Users/<you>/movie-night --full -p <profile>
 databricks apps deploy movie-night --source-code-path /Workspace/Users/<you>/movie-night -p <profile>
 ```
 
+**Deploying is not enough.** The app runs as its own service principal, not as you, so
+it has no access to the database until you grant it. The app will start successfully and
+then fail on its first query. Two steps, in order:
+
+```bash
+databricks apps get movie-night -p <profile> -o json          # read service_principal_client_id
+
+databricks database create-database-instance-role \
+    bootcamp-support-db <service_principal_client_id> \
+    --identity-type SERVICE_PRINCIPAL -p <profile>            # create the Postgres role
+
+python scripts/grant_app_access.py <service_principal_client_id>   # grant schema privileges
+```
+
+The grant script also sets `ALTER DEFAULT PRIVILEGES`, so re-running `bootstrap_db.py`
+later does not silently break the app again.
+
 ## Tests
 
 ```bash
@@ -147,7 +164,7 @@ The tests worth knowing about, because they encode bugs that were actually caugh
 | Embedding dimension | 1024 (`databricks-gte-large-en`) |
 | Embedding batch limit | **8** — batches of 16 fail with `429` at any spacing |
 | Sustained embedding rate | ~2.9 docs/sec at batch 8 with a 2s gap |
-| Tool calling | Works on llama-4-maverick, llama-3.3-70b, gpt-oss-120b, qwen3 |
+| Tool calling | Reliable on llama-3.3-70b and qwen3; **llama-4-maverick emits tool calls as plain text** in `content` instead of the `tool_calls` channel, so the loop never dispatches them |
 | App quota | 3 apps per workspace |
 | TMDB corpus | 14,752 movies at `vote_count >= 200` |
 
@@ -168,6 +185,10 @@ Stated honestly rather than omitted:
 - **The catalog is a popularity-sorted slice**, so it skews recent and mainstream. A
   request for an obscure or older title can legitimately find nothing, and the agent
   is instructed to say so rather than substitute a loosely similar film.
+- **`exclude_violent` filters on US certification only** (`R`, `NC-17`, plus NULL). A
+  film certified `NR` is neither excluded nor verified — TMDB reports it as a real
+  value, so the NULL rule does not catch it. Rare in a popularity-sorted catalog, but
+  it is a hole in a safety filter, which is the wrong place to have one.
 - **Keyword lists include generic TMDB tags** (`based on novel or book`,
   `duringcreditsstinger`) that dilute the distinctive ones. A stoplist would sharpen
   retrieval; not implemented.
@@ -186,7 +207,8 @@ movienight/
   tools.py                 The 6 tools — the trust boundary
   agent.py                 Tool-calling loop; knows protocol, not movies
 sql/                       Schema, indexes, demo seed
-scripts/                   bootstrap_db.py, load_movies.py, capture_fixtures.py
+scripts/                   bootstrap_db.py, load_movies.py, capture_fixtures.py,
+                           demo_agent.py, grant_app_access.py
 notebooks/ingest_movies.py Spark pipeline
 tests/                     52 offline tests
 docs/superpowers/          Design spec and implementation plan
