@@ -16,7 +16,12 @@ from dataclasses import dataclass
 
 from .tools import TOOL_SCHEMAS, dispatch
 
-DEFAULT_ENDPOINT = "databricks-llama-4-maverick"
+# llama-4-maverick emits tool calls as PLAIN TEXT in the content field
+# (e.g. "[search_movies(query=...)]") instead of using the tool_calls channel,
+# so the loop never dispatches them and no write ever happens. Measured against
+# this workspace: 3.3-70b and qwen3 both drive the full get_group_context ->
+# search_movies -> answer sequence correctly; gpt-oss-120b stops after one call.
+DEFAULT_ENDPOINT = "databricks-meta-llama-3-3-70b-instruct"
 MAX_TOOL_RESULT_CHARS = 6000
 
 SYSTEM_PROMPT = """\
