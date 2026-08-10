@@ -1343,11 +1343,25 @@ def test_search_movies_missing_query_is_an_error():
     assert result["status"] == "error"
 
 
-def test_writes_never_interpolate_values_into_sql():
+def test_model_supplied_values_reach_sql_only_as_parameters():
+    """The model chooses these values, so none may be interpolated into SQL text."""
     conn = FakeConn(responses={"FROM movies WHERE movie_id": [{"movie_id": 5}]})
     dispatch("record_rating", {"movie_id": 5, "score": 8}, ctx(conn))
-    for sql, params in conn.calls:
-        assert "'" not in sql.replace("'{}'", ""), f"literal quote in SQL: {sql}"
+    insert = [c for c in conn.calls if "INSERT INTO ratings" in c[0]][0]
+    sql, params = insert
+    assert "5" not in sql and "8" not in sql, f"value interpolated into SQL: {sql}"
+    assert params["movie_id"] == 5 and params["score"] == 8
+
+
+def test_sql_injection_attempt_stays_inert_in_params():
+    conn = FakeConn(responses={"FROM movies WHERE movie_id": [{"movie_id": 5}]})
+    result = dispatch("add_to_watchlist",
+                      {"movie_id": 5, "reason": "'; DROP TABLE movies; --"},
+                      ctx(conn))
+    assert result["status"] == "ok"
+    insert = [c for c in conn.calls if "INSERT INTO watchlist_items" in c[0]][0]
+    assert "DROP TABLE" not in insert[0]
+    assert insert[1]["reason"] == "'; DROP TABLE movies; --"
 ```
 
 - [ ] **Step 2: Run the test to verify it fails**
@@ -1647,7 +1661,7 @@ def dispatch(name, arguments, ctx):
 - [ ] **Step 4: Run the tests to verify they pass**
 
 Run: `python -m pytest tests/test_tools.py -v`
-Expected: 9 passed
+Expected: 10 passed
 
 - [ ] **Step 5: Commit**
 
@@ -1704,11 +1718,7 @@ def answer(text):
     return {"role": "assistant", "content": text}
 
 
-class StubCtx(ToolContext):
-    pass
-
-
-def make_ctx(results):
+def make_ctx():
     class Conn:
         def execute(self, *a, **k):
             class C:
@@ -1716,14 +1726,12 @@ def make_ctx(results):
                 def fetchone(inner): return None
             return C()
         def commit(self): pass
-    ctx = ToolContext(conn=Conn(), embedder=None, group_id=1, user_id=1)
-    ctx._results = results
-    return ctx
+    return ToolContext(conn=Conn(), embedder=None, group_id=1, user_id=1)
 
 
 def test_answer_without_tool_calls_returns_single_step(monkeypatch):
     steps = run_agent(ScriptedLLM([answer("Watch Toy Story.")]),
-                      make_ctx({}), "what should we watch?")
+                      make_ctx(), "what should we watch?")
     assert len(steps) == 1
     assert steps[0].kind == "answer"
     assert "Toy Story" in steps[0].content
@@ -1735,7 +1743,7 @@ def test_tool_call_is_executed_then_answer_returned(monkeypatch):
                         lambda n, a, c: {"status": "ok", "count": 1})
     llm = ScriptedLLM([tool_call("search_movies", {"query": "funny"}),
                        answer("Here you go.")])
-    steps = run_agent(llm, make_ctx({}), "something funny")
+    steps = run_agent(llm, make_ctx(), "something funny")
     assert [s.kind for s in steps] == ["tool_call", "answer"]
     assert steps[0].name == "search_movies"
     assert steps[0].arguments == {"query": "funny"}
@@ -1747,7 +1755,7 @@ def test_tool_results_are_fed_back_to_the_model(monkeypatch):
     monkeypatch.setattr(agent_mod, "dispatch",
                         lambda n, a, c: {"status": "ok", "marker": "XYZZY"})
     llm = ScriptedLLM([tool_call("get_group_context", {}), answer("done")])
-    run_agent(llm, make_ctx({}), "hi")
+    run_agent(llm, make_ctx(), "hi")
     second_call_messages = llm.seen[1]
     assert any(m.get("role") == "tool" and "XYZZY" in m.get("content", "")
                for m in second_call_messages)
@@ -1757,7 +1765,7 @@ def test_loop_stops_at_max_iterations(monkeypatch):
     import movienight.agent as agent_mod
     monkeypatch.setattr(agent_mod, "dispatch", lambda n, a, c: {"status": "ok"})
     llm = ScriptedLLM([tool_call("search_movies", {"query": "x"})] * 10)
-    steps = run_agent(llm, make_ctx({}), "loop forever", max_iterations=3)
+    steps = run_agent(llm, make_ctx(), "loop forever", max_iterations=3)
     assert sum(1 for s in steps if s.kind == "tool_call") == 3
     assert steps[-1].kind == "answer"
     assert "could not" in steps[-1].content.lower()
@@ -1770,7 +1778,7 @@ def test_malformed_tool_arguments_do_not_crash(monkeypatch):
         {"id": "c1", "type": "function",
          "function": {"name": "search_movies", "arguments": "{not json"}}]}
     steps = run_agent(ScriptedLLM([bad, answer("recovered")]),
-                      make_ctx({}), "hi")
+                      make_ctx(), "hi")
     assert steps[0].kind == "tool_call"
     assert steps[0].result["status"] == "error"
     assert steps[-1].content == "recovered"
