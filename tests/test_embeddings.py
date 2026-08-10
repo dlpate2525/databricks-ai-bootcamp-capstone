@@ -170,3 +170,62 @@ def test_no_sleep_after_final_failed_attempt():
     with pytest.raises(EmbeddingError):
         client.embed(["a"])
     assert len(t.sleeps) == max_retries - 1
+
+
+# --- sorted(...) / return-list construction now runs inside the try block,
+# so malformed bodies raise EmbeddingError (catchable/retryable), not a raw
+# KeyError that would escape _post_with_backoff's `except EmbeddingError`. ---
+
+
+def test_post_raises_embedding_error_when_data_key_missing(monkeypatch):
+    """A malformed body with no 'data' key must surface as EmbeddingError,
+    not a raw KeyError - a raw KeyError would escape the retry loop entirely
+    since _post_with_backoff only catches EmbeddingError."""
+    payload = {"object": "list"}  # no "data" key at all
+    monkeypatch.setattr(
+        urllib.request, "urlopen",
+        lambda req, timeout=None: FakeHTTPResponse(payload),
+    )
+    client = real_client()
+    with pytest.raises(EmbeddingError) as exc_info:
+        client._post(["a"])
+    assert not isinstance(exc_info.value, KeyError)
+
+
+def test_post_raises_embedding_error_when_embedding_key_missing(monkeypatch):
+    """A data row missing 'embedding' must also surface as EmbeddingError,
+    not a raw KeyError, for the same reason."""
+    payload = {"data": [{"index": 0}]}  # row present but no "embedding"
+    monkeypatch.setattr(
+        urllib.request, "urlopen",
+        lambda req, timeout=None: FakeHTTPResponse(payload),
+    )
+    client = real_client()
+    with pytest.raises(EmbeddingError) as exc_info:
+        client._post(["a"])
+    assert not isinstance(exc_info.value, KeyError)
+
+
+def test_malformed_response_is_retried_and_can_still_succeed(monkeypatch):
+    """The whole point of the fix: a transient truncated/malformed response
+    on attempt 1 must not abort the run - the retry loop must catch it (as
+    EmbeddingError) and a well-formed response on attempt 2 must still
+    succeed."""
+    calls = {"n": 0}
+    bad_payload = {"object": "list"}  # missing "data" - malformed
+    good_payload = {"data": [{"index": 0, "embedding": [1.0] * DIM}]}
+
+    def fake_urlopen(req, timeout=None):
+        calls["n"] += 1
+        return FakeHTTPResponse(bad_payload if calls["n"] == 1 else good_payload)
+
+    monkeypatch.setattr(urllib.request, "urlopen", fake_urlopen)
+    client = real_client()
+    client._max_retries = 3
+    client._sleep = lambda seconds: None  # no real wall-clock delay in test
+
+    vectors = client.embed(["x"])
+
+    assert calls["n"] == 2                # failed once, succeeded on retry
+    assert len(vectors) == 1
+    assert vectors[0][0] == 1.0

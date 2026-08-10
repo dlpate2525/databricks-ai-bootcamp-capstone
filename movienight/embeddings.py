@@ -43,14 +43,13 @@ class EmbeddingClient:
         try:
             with urllib.request.urlopen(req, timeout=self._timeout) as r:
                 body = json.loads(r.read().decode())
+            rows = sorted(body["data"], key=lambda d: d.get("index", 0))
+            return [row["embedding"] for row in rows]
         except urllib.error.HTTPError as e:
             detail = e.read().decode()[:200]
             raise EmbeddingError(f"HTTP {e.code}: {detail}") from e
         except Exception as e:
             raise EmbeddingError(f"{type(e).__name__}: {e}") from e
-
-        rows = sorted(body["data"], key=lambda d: d.get("index", 0))
-        return [row["embedding"] for row in rows]
 
     def _post_with_backoff(self, batch):
         delay = BASE_GAP
@@ -62,7 +61,7 @@ class EmbeddingClient:
                 last = e
                 if attempt + 1 < self._max_retries:
                     self._sleep(delay)
-                delay = min(delay * 2, 60.0)
+                    delay = min(delay * 2, 60.0)
         raise EmbeddingError(f"gave up after {self._max_retries} attempts: {last}")
 
     def embed(self, texts):
