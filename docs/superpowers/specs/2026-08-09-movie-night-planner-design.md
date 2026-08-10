@@ -35,7 +35,7 @@ not assumed. These numbers drive several decisions.
 | `/reviews` | 11 for a popular title, first 188 chars | Sparse. Included when present, never depended on |
 | `/keywords` | 14–26 per movie, e.g. `nihilism`, `rage and hate`, `friendship` | Highest-signal field for tone queries |
 | Embedding dim (`databricks-gte-large-en`) | **1024** | `vector(1024)` in DDL |
-| Embedding batch ≤ 8, ~2s gap | 2.9 docs/sec sustained | 500 movies ≈ 3 min |
+| Embedding batch ≤ 8, ~2s gap | 2.9 docs/sec sustained | 5,000 movies ≈ 29 min |
 | Embedding batch ≥ 16 | `429 REQUEST_LIMIT_EXCEEDED` at any spacing | Hard cap: batch size 8 |
 | Embedding batch 256 | `400 BAD_REQUEST` | True size ceiling is 128–256; irrelevant given the 429 |
 | Tool calling on 4 chat endpoints | all return `tool_calls` in ~1s | Agent architecture is viable |
@@ -124,9 +124,16 @@ LIMIT %(k)s;
 `exclude_ids` is how "avoid movies already watched or disliked by group members" is
 enforced — as a filter, not as a hope that the model remembers.
 
-An HNSW index with `vector_cosine_ops` backs the ordering. At ~500 rows a sequential
-scan would be fine; the index is there because the pipeline is designed to scale to the
-full 14,752 without a schema change.
+An HNSW index with `vector_cosine_ops` backs the ordering. At 5,000 rows this is doing
+real work rather than being decorative.
+
+One caveat that the index makes necessary: HNSW is an **approximate** search, and
+Postgres applies the `WHERE` predicates *after* the index returns its candidate set. A
+narrow filter (say, `runtime < 90` and G-rated) can therefore return fewer than `k`
+rows, or none, even when matching movies exist. The search tool handles this by
+over-fetching candidates (`ef_search` raised, `LIMIT k * 10` before filtering) and
+falling back to an exact scan when the filtered result is short. At this corpus size an
+exact scan is still fast, so correctness is never traded away for speed.
 
 ## 6. Lakebase schema
 
@@ -225,14 +232,45 @@ the agent taking actions, and a visible `add_to_watchlist(...) → ok` is the ev
 
 Free Edition, educational use, so:
 
-- **~500 movies**, not 14,752. Retrieval demonstrates identically; the page count is a
-  notebook parameter, so scale is a config change, not a rewrite.
-- **One app.** The optional dashboard from the spec is skipped.
+- **5,000 movies** (250 `discover` pages), out of the 14,752 available. Chosen so the
+  corpus is large enough that retrieval quality and the HNSW index actually matter,
+  while staying well inside the free budget. The page count is a notebook parameter.
 - **Existing Lakebase instance**, new schema.
 - **Job run on demand**, not scheduled — nothing bills while idle.
 - Free Edition caps the workspace at 3 apps. `databricks-day-1-bootcamp-app` (the
   bootcamp's own reference app, distinct from the `support-desk` Assignment 1
-  submission) was deleted to free the slot.
+  submission) was deleted to free the slot, leaving two in use.
+
+### What 5,000 costs
+
+| | |
+| --- | --- |
+| `discover` pages | 250 requests |
+| Enrichment (`keywords`, `credits`, `release_dates`) | 3 × 5,000 = 15,000 requests |
+| Embedding requests | 625 (batch of 8) |
+| Embedding wall-clock | ~29 min at the measured 2.9 docs/sec |
+| Vector storage | 5,000 × 1024 × 4B ≈ 20 MB |
+
+Two consequences follow from the scale and are **requirements, not nice-to-haves**:
+
+1. **The pipeline must be resumable.** A 15,000-request enrichment stage and a ~29
+   minute embedding stage will eventually be interrupted — by the rate-limit budget, a
+   transient TMDB error, or a detached notebook. Bronze is written incrementally and
+   the embedding stage processes only movies with no current vector
+   (`LEFT JOIN movie_embeddings WHERE embedding IS NULL`, keyed on a document hash), so
+   a re-run continues instead of restarting. At 500 movies this would have been a
+   nicety; at 5,000 it is the difference between finishing and not.
+2. **The document hash gates re-embedding.** `movie_embeddings` stores the SHA-256 of
+   the composed document. Re-running the pipeline re-embeds only movies whose document
+   actually changed, so iterating on the composition in §4 does not mean paying for
+   5,000 embeddings again.
+
+### Optional dashboard app
+
+The spec's dashboard is extra credit. With the planner deployed the workspace is at the
+3-app cap, so it is **out of scope unless a slot is freed**. It will be attempted once
+the planner is live, at which point the cap is a measured fact rather than an
+assumption; if it blocks, the project ships without it as agreed.
 
 ## 10. Testing
 
@@ -253,9 +291,15 @@ that proves the embeddings carry signal rather than merely existing.
 - **Rate limits are a Free Edition budget with an unknown window.** Mitigated by
   adaptive backoff and by embedding once into Lakebase, so the app never embeds at
   request time except for the query string itself (a single short call).
-- **TMDB enrichment is 3 extra calls per movie.** At 500 movies that's ~1,500 requests;
-  TMDB's limit is generous but the pipeline should checkpoint to bronze so a failure
-  mid-run doesn't re-fetch everything.
+- **TMDB enrichment is 3 extra calls per movie** — 15,000 requests at this scale.
+  TMDB's published limit is generous, but this is the longest-running stage and the
+  most likely to be interrupted. Mitigated by the resumability requirement in §9;
+  bronze is the checkpoint.
+- **The embedding budget window is unknown**, and 625 requests is far past what was
+  measured (6 consecutive). The stage may hit the limit partway through. This is
+  survivable only because of hash-gated resumption — re-running picks up where it
+  stopped. If it proves slow, the honest fallback is to reduce the page count rather
+  than to pretend a partial corpus is complete.
 - **Certification is US-only and often missing.** `exclude_violent` must treat NULL as
   unknown rather than safe, or unrated films leak into a "not too violent" result.
 - **The model may not call a tool at all.** The system prompt forbids answering from
