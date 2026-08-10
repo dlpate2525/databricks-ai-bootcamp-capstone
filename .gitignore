@@ -1,0 +1,10 @@
+.venv/
+venv/
+__pycache__/
+*.pyc
+.databricks/
+.env
+*.local.json
+conn*.json
+secrets*.json
+.DS_Store
