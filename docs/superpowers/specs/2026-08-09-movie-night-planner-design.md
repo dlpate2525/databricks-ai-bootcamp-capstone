@@ -135,7 +135,7 @@ instance would be a second meter for no benefit.
 
 | Table | Purpose | Notes |
 | --- | --- | --- |
-| `users` | person | seeded demo users + the real Databricks identity |
+| `users` | person | see identity note below |
 | `groups` | a movie-night group | |
 | `group_members` | membership | PK `(group_id, user_id)` |
 | `movies` | one row per TMDB title | `runtime`, `certification`, `release_year`, `genres text[]`, `keywords text[]`, `poster_path` |
@@ -146,6 +146,23 @@ instance would be a second meter for no benefit.
 
 `recommendations` exists specifically so the agent's actions are inspectable after the
 fact — it stores the query, the movie ids returned, the chosen pick, and the rationale.
+
+### Identity
+
+A Databricks App receives the signed-in user in the `X-Forwarded-Email` header. That
+email is upserted into `users` on each request and is the *only* identity the app
+trusts for writes attributed to "me".
+
+A movie night needs several people, and a Free Edition workspace has one real account,
+so groups are additionally populated with **seeded demo members** (`ava@example.com`,
+`ben@example.com`, …) carrying pre-loaded ratings. This is what makes "recommend
+something everyone will enjoy" a real constraint-satisfaction problem instead of a
+single-user query.
+
+The distinction is explicit in the schema: `users.is_demo boolean`. Demo members can be
+rated on behalf of through the UI; the real user cannot be impersonated, and the agent
+may never pass a `user_id` for the signed-in person other than the one resolved from
+the header.
 
 ## 7. The agent
 
