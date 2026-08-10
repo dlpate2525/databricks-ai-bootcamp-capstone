@@ -3,15 +3,22 @@
 Every argument here was chosen by a language model, so it may be malformed,
 out of range, or reference a movie that does not exist. Each tool therefore:
 validates ids against the catalog before writing, uses only parameterised SQL,
-is idempotent so a retry cannot double-write, clamps numeric ranges, and takes
-group_id/user_id from ToolContext rather than from the model.
+clamps numeric ranges, and takes group_id/user_id from ToolContext rather
+than from the model. `add_to_watchlist` and `record_rating` are idempotent
+(ON CONFLICT DO UPDATE against a real unique constraint) so a retry cannot
+double-write. `save_recommendation` is append-only by design - it is an audit
+log of what the agent did, so a retry legitimately adds another row rather
+than upserting one.
 
 Tools return dicts and never raise; the agent needs a sentence it can relay.
 """
 
+import logging
 from dataclasses import dataclass
 
 from .retrieval import SearchFilters, search
+
+logger = logging.getLogger(__name__)
 
 MAX_COMPARE = 4
 MAX_K = 12
@@ -107,7 +114,9 @@ def _as_int(value):
         return None
     try:
         return int(value)
-    except (TypeError, ValueError):
+    except (TypeError, ValueError, OverflowError):
+        # OverflowError: json.loads accepts bare Infinity/-Infinity, and
+        # int(float('inf')) raises OverflowError rather than ValueError.
         return None
 
 
@@ -132,7 +141,8 @@ def _tool_search_movies(args, ctx):
     if not query:
         return _err("search_movies needs a non-empty 'query'.")
 
-    k = _as_int(args.get("k")) or 8
+    k = _as_int(args.get("k"))
+    k = 8 if k is None else k
     k = max(1, min(k, MAX_K))
 
     filters = SearchFilters(
@@ -251,6 +261,19 @@ def _tool_save_recommendation(args, ctx):
 
     candidates = [i for i in (_as_int(x) for x in
                               args.get("candidate_ids") or []) if i]
+    if candidates:
+        # bigint[] can't be FK-constrained, so a hallucinated id would
+        # otherwise persist silently into the permanent audit trail.
+        rows = ctx.conn.execute(
+            "SELECT movie_id FROM movies WHERE movie_id = ANY(%(ids)s)",
+            {"ids": candidates},
+        ).fetchall()
+        found = {r["movie_id"] for r in rows}
+        missing = [i for i in candidates if i not in found]
+        if missing:
+            return _err(
+                f"No movie in the catalog with id(s): {missing}.")
+
     ctx.conn.execute(
         """
         INSERT INTO recommendations
@@ -282,5 +305,11 @@ def dispatch(name, arguments, ctx):
         return _err(f"Unknown tool {name!r}.")
     try:
         return handler(arguments or {}, ctx)
-    except Exception as exc:                      # never surface a traceback
-        return _err(f"{name} failed: {type(exc).__name__}: {exc}")
+    except Exception:
+        # Validation-path errors already return clean messages before
+        # reaching here, so this branch only handles genuine surprises
+        # (e.g. a raw psycopg error). Those can carry constraint/column
+        # names and the offending value - log the detail server-side only
+        # and keep the message the model/user sees generic.
+        logger.exception("tool %r raised unexpectedly", name)
+        return _err(f"{name} failed unexpectedly. Please try again.")

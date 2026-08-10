@@ -1,5 +1,3 @@
-import pytest
-
 from movienight.tools import TOOL_SCHEMAS, ToolContext, dispatch
 
 
@@ -111,3 +109,51 @@ def test_sql_injection_attempt_stays_inert_in_params():
     insert = [c for c in conn.calls if "INSERT INTO watchlist_items" in c[0]][0]
     assert "DROP TABLE" not in insert[0]
     assert insert[1]["reason"] == "'; DROP TABLE movies; --"
+
+
+def test_save_recommendation_candidate_ids_param_is_a_list_not_a_tuple():
+    conn = FakeConn(responses={"FROM movies WHERE movie_id":
+                                [{"movie_id": 1}, {"movie_id": 2}]})
+    result = dispatch("save_recommendation",
+                      {"user_query": "q", "candidate_ids": [1, 2],
+                       "chosen_movie_id": 1, "rationale": "r"},
+                      ctx(conn))
+    assert result["status"] == "ok"
+    insert = [c for c in conn.calls
+              if "INSERT INTO recommendations" in c[0]][0]
+    assert isinstance(insert[1]["c"], list), \
+        f"candidate_ids param must be a list, got {type(insert[1]['c'])}"
+    assert insert[1]["c"] == [1, 2]
+
+
+def test_save_recommendation_rejects_unknown_chosen_movie_id():
+    conn = FakeConn(responses={"FROM movies WHERE movie_id": []})
+    result = dispatch("save_recommendation",
+                      {"user_query": "q", "candidate_ids": [],
+                       "chosen_movie_id": 999999, "rationale": "r"},
+                      ctx(conn))
+    assert result["status"] == "error"
+    assert "999999" in result["message"]
+    assert not conn.committed
+    assert not [c for c in conn.calls if "INSERT INTO recommendations" in c[0]]
+
+
+def test_save_recommendation_rejects_unknown_candidate_id():
+    conn = FakeConn(responses={"FROM movies WHERE movie_id":
+                                [{"movie_id": 5, "title": "X"}]})
+    result = dispatch("save_recommendation",
+                      {"user_query": "q", "candidate_ids": [5, 999999],
+                       "chosen_movie_id": 5, "rationale": "r"},
+                      ctx(conn))
+    assert result["status"] == "error"
+    assert "999999" in result["message"]
+    assert not conn.committed
+    assert not [c for c in conn.calls if "INSERT INTO recommendations" in c[0]]
+
+
+def test_record_rating_rejects_infinite_score_cleanly():
+    conn = FakeConn(responses={"FROM movies WHERE movie_id": [{"movie_id": 5}]})
+    result = dispatch("record_rating", {"movie_id": 5, "score": float("inf")},
+                      ctx(conn))
+    assert result["status"] == "error"
+    assert "OverflowError" not in result["message"]
